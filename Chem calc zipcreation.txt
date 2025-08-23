@@ -1,0 +1,149 @@
+import os
+import zipfile
+
+# Folder and file structure
+project_name = "titusmukisamjtoward-chemistry-calculator"
+base_path = f"/mnt/data/{project_name}"
+
+os.makedirs(base_path, exist_ok=True)
+os.makedirs(os.path.join(base_path, "pages"), exist_ok=True)
+os.makedirs(os.path.join(base_path, "styles"), exist_ok=True)
+os.makedirs(os.path.join(base_path, "public/images"), exist_ok=True)
+
+# Files content
+files = {
+"README.md": """# Calculator Project
+This repository is for the TitusMukisaMJToward platform chemistry calculator.
+
+## Features
+- Reactants → Products (word + chemical form)
+- Balanced equations
+- Quantity calculations
+- Online and offline support
+- Free access for students of Titus Academy
+
+## Tech Stack
+- React / HTML / JS (Frontend)
+- Node.js / Python (Backend optional)
+- GitHub + Vercel (CI/CD)
+""",
+".gitignore": """node_modules/
+.env
+.DS_Store
+.vscode/
+dist/
+build/
+""",
+"package.json": """{
+"name": "titusmukisamjtoward-chemistry-calculator",
+"version": "1.0.0",
+"description": "Chemistry calculator for TitusMukisaMJToward platform",
+"scripts": {
+"start": "react-scripts start",
+"build": "react-scripts build"
+},
+"dependencies": {
+"react": "^18.2.0",
+"react-dom": "^18.2.0",
+"react-scripts": "5.0.1"
+}
+}
+""",
+"vercel.json": """{
+"builds": [
+{ "src": "pages/index.html", "use": "@vercel/static" }
+],
+"routes": [
+{ "src": "/", "dest": "pages/index.html" }
+]
+}
+""",
+"pages/index.html": """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chemistry Calculator - TitusMukisaMJToward</title>
+<link rel="stylesheet" href="../styles/style.css" />
+</head>
+<body>
+<h1>Chemistry Calculator</h1>
+<input type="text" id="input" placeholder="Enter chemical expression" />
+<button onclick="calculate()">Calculate</button>
+<div id="output"></div>
+
+<script>
+function calculate() {
+const input = document.getElementById("input").value;
+const output = document.getElementById("output");
+// Placeholder demo logic
+if (input === "2H2 + O2") {
+output.innerHTML = "➡️ 2H2O (Water)";
+} else {
+output.innerHTML = "❗ Currently supports: 2H2 + O2 only (demo)";
+}
+}
+</script>
+</body>
+</html>
+""",
+"styles/style.css": """body {
+font-family: Arial, sans-serif;
+background: #eef2f5;
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+margin: 0;
+}
+
+h1 {
+text-align: center;
+}
+
+input[type="text"] {
+width: 300px;
+padding: 10px;
+font-size: 16px;
+margin-right: 10px;
+}
+
+button {
+padding: 10px 20px;
+font-size: 16px;
+background-color: navy;
+color: white;
+border: none;
+cursor: pointer;
+border-radius: 5px;
+}
+
+button:hover {
+background-color: #002766;
+}
+
+#output {
+margin-top: 20px;
+font-size: 18px;
+color: green;
+text-align: center;
+}
+"""
+}
+
+# Write files to disk
+for filepath, content in files.items():
+full_path = os.path.join(base_path, filepath)
+with open(full_path, "w", encoding="utf-8") as f:
+f.write(content)
+
+# Create zip file
+zip_path = f"/mnt/data/{project_name}.zip"
+with zipfile.ZipFile(zip_path, "w") as z:
+for root, _, filenames in os.walk(base_path):
+for filename in filenames:
+file_path = os.path.join(root, filename)
+arcname = os.path.relpath(file_path, base_path)
+z.write(file_path, arcname)
+
+zip_path
