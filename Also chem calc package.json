@@ -1,0 +1,26 @@
+{
+  "name": "chem-calc",
+  "version": "1.0.0",
+  "description": "A chemistry calculator for balancing equations and predicting products.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [
+    "chemistry",
+    "calculator",
+    "equations",
+    "reactions",
+    "science"
+  ],
+  "author": "Mukisa Titus Mwanje",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "body-parser": "^1.20.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
